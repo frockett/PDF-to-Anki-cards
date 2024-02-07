@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Pdf-to-Anki-cards": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\itscr\\source\\repos\\PDF-to-Anki-cards\\Pdf-to-Anki-cards\\Pdf-to-Anki-cards"
+    }
+  }
+}
