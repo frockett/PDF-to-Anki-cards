@@ -5,27 +5,23 @@ namespace Pdf_to_Anki_cards;
 
 internal class NoteBuilder
 {
-    private readonly AnkiCollection ocollection;
+    private readonly AnkiCollection collection;
     private AnkiNoteType noteType;
-    AnkiCollection collection = new AnkiCollection();
+    //AnkiCollection collection = new AnkiCollection();
     public NoteBuilder(AnkiCollection collection) 
-    { 
-        ocollection = collection;
+    {
+        this.collection = collection;
     }
 
     public void GenerateNotes(long deckId, long noteTypeId, string[] fields)
     {
-        collection.CreateNote(deckId, noteTypeId, "TestCN", "TestPy","TestEn");
+        collection.CreateNote(deckId, noteTypeId, fields);
     }
+
     public async Task WriteCollection()
     {
         collection.TryGetDeckByName("test", out var deck);
-        //List<AnkiNote> notes = deck.Cards.ToList();
-        //foreach (var note in notes)
-        //{
-        //    Console.WriteLine(note.Fields.ToString());
-       // }
-        //Console.WriteLine(deck.Cards.ToString());
+      
         await AnkiFileWriter.WriteToFileAsync("Test1.apkg", collection);
     }
 
@@ -67,6 +63,7 @@ internal class NoteBuilder
     public long GenerateDeck(string deckName = "test")
     {
         var deckId = collection.CreateDeck(deckName);
+       
 
         bool deckExists = collection.TryGetDeckById(deckId, out var deck);
 

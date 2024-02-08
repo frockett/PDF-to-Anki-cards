@@ -17,11 +17,29 @@ internal class MenuHandler
 
     public void ShowMainMenu()
     {
+        List<Tabula.Table>? tables = new();
+
         // Get the file path
         string pdfPath = AnsiConsole.Ask<string>("Paste full path to PDF: ");
+        string cleanPdfPath = pdfPath.Trim('"');
+
+
+        if (File.Exists(cleanPdfPath))
+        {
+            // File exists, proceed with processing
+            tables = reader.ReadPdfTables(cleanPdfPath);
+        }
+        else
+        {
+            // File does not exist, warn the user
+            Console.WriteLine("File does not exist. Please check the file path and try again.");
+            return;
+        }
+
+
 
         // Call for the document to be read
-        List<Tabula.Table>? tables = reader.ReadPdfTables(pdfPath);
+        //tables = reader.ReadPdfTables(pdfPath);
 
         if (tables == null || tables.Count == 0)
         {

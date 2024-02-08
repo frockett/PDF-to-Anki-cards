@@ -2,6 +2,7 @@
 using Tabula;
 using UglyToad.PdfPig.Content;
 using UglyToad.PdfPig;
+using System.Text;
 //using Spectre.Console;
 
 namespace Pdf_to_Anki_cards;
@@ -11,12 +12,13 @@ internal class PdfReader
     public List<Table> ReadPdfTables(string path)
     {
         
-        string pdfPath = @"C:\Users\itscr\source\repos\PDF-to-Anki-cards\Pdf-to-Anki-cards\Pdf-to-Anki-cards\PDFs\058.pdf";
-
+        //string pdfPath = @"C:\Users\itscr\source\repos\PDF-to-Anki-cards\Pdf-to-Anki-cards\Pdf-to-Anki-cards\PDFs\058.pdf";
+        //
+        //string sanitizedPath = 
         //string csvPath = @"/CSVoutput/output.csv";
         //"C:\Users\itscr\source\repos\PDF-to-Anki-cards\Pdf-to-Anki-cards\Pdf-to-Anki-cards\058.pdf"
 
-        using (PdfDocument document = PdfDocument.Open(pdfPath, new ParsingOptions() { ClipPaths = true }))
+        using (PdfDocument document = PdfDocument.Open(path, new ParsingOptions() { ClipPaths = true }))
         {
             ObjectExtractor oe = new ObjectExtractor(document);
             List<Table> tables = new List<Table>();

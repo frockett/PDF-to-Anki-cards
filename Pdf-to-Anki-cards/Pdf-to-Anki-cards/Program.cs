@@ -9,3 +9,4 @@ MenuHandler menuHandler = new MenuHandler(reader, noteBuilder);
 
 menuHandler.ShowMainMenu();
 noteBuilder.WriteCollection();
+//await noteBuilder.TestMethod();
