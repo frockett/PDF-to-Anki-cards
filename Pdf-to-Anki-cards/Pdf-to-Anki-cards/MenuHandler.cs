@@ -15,7 +15,7 @@ internal class MenuHandler
         Console.OutputEncoding = System.Text.Encoding.UTF8;
     }
 
-    public void ShowMainMenu()
+    public async Task ShowMainMenu()
     {
         List<Tabula.Table>? tables = new();
 
@@ -68,6 +68,19 @@ internal class MenuHandler
 
         // Get user input for deck name, then generate note types and deckId
         string deckName = AnsiConsole.Ask<string>("What would you like to name your deck? ");
+        char[] invalidChars = Path.GetInvalidFileNameChars();
+
+        while (deckName.Any(c => invalidChars.Contains(c)))
+        {
+            // Filter out unprintable characters and put them in a new char array, then join them with spaces in-between
+            char[] printableChars = invalidChars.Where(c => char.IsControl(c) == false).ToArray();
+            string displayString = string.Join(" ", printableChars);
+
+            AnsiConsole.WriteLine($"The filename contains invalid characters such as {displayString}");
+            deckName = AnsiConsole.Ask<string>($"What would you like to name your deck? ");
+        }
+
+        string deckNameWithExtension = Path.ChangeExtension(deckName, ".apkg");
         long noteTypeId = noteBuilder.GenerateNoteTypes();
         long deckId = noteBuilder.GenerateDeck(deckName);
 
@@ -84,5 +97,7 @@ internal class MenuHandler
             string[] cellStrings = currentRow.Select(cell => cell.GetText()).ToArray();
             noteBuilder.GenerateNotes(deckId, noteTypeId, cellStrings);
         }
+
+        await noteBuilder.WriteCollection(deckNameWithExtension);
     }
 }

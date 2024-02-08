@@ -18,11 +18,11 @@ internal class NoteBuilder
         collection.CreateNote(deckId, noteTypeId, fields);
     }
 
-    public async Task WriteCollection()
+    public async Task WriteCollection(string fileName)
     {
-        collection.TryGetDeckByName("test", out var deck);
+        collection.TryGetDeckByName(fileName, out var deck);
       
-        await AnkiFileWriter.WriteToFileAsync("Test1.apkg", collection);
+        await AnkiFileWriter.WriteToFileAsync(fileName, collection);
     }
 
     public long GenerateNoteTypes()

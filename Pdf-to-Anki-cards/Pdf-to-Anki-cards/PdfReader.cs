@@ -9,15 +9,8 @@ namespace Pdf_to_Anki_cards;
 
 internal class PdfReader
 {
-    public List<Table> ReadPdfTables(string path)
+    public List<Table>? ReadPdfTables(string path)
     {
-        
-        //string pdfPath = @"C:\Users\itscr\source\repos\PDF-to-Anki-cards\Pdf-to-Anki-cards\Pdf-to-Anki-cards\PDFs\058.pdf";
-        //
-        //string sanitizedPath = 
-        //string csvPath = @"/CSVoutput/output.csv";
-        //"C:\Users\itscr\source\repos\PDF-to-Anki-cards\Pdf-to-Anki-cards\Pdf-to-Anki-cards\058.pdf"
-
         using (PdfDocument document = PdfDocument.Open(path, new ParsingOptions() { ClipPaths = true }))
         {
             ObjectExtractor oe = new ObjectExtractor(document);
@@ -32,16 +25,42 @@ internal class PdfReader
                 tables.AddRange(ea.Extract(page));
             }
 
+            //SanitizeTables(tables);
+
             // Only return tables if there are any in the list
-            if (tables.Count > 0)
+            return tables.Count > 0 ? tables : null;
+        }
+    }
+
+    private void SanitizeTables(List<Table> tables)
+    {
+        foreach (var table in tables)
+        {
+            foreach (var row in table.Rows)
             {
-                return tables;
-            }
-            else
-            {
-                return null;
+                for (int i = 0; i < row.Count; i++)
+                {
+                    // Assuming 'Text' is a property that holds the cell's text.
+                    // You'll need to adjust this based on the actual data structure.
+                    //row[i].Text = SanitizeText(row[i].Text);
+                    row[i].SetTextElements(SanitizeText(row[i]));
+                    
+                }
             }
         }
     }
 
+    private List<TextChunk> SanitizeText(Cell cell)
+    {
+        List<TextChunk> textChunks = new List<TextChunk>();
+        foreach(var chunk in textChunks)
+        {
+            if(chunk.GetText() == "'")
+            {
+                //textChunks.IndexOf(chunk) = "''";
+            }
+        }
+
+        throw new NotImplementedException();
+    }
 }

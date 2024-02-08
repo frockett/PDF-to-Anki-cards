@@ -7,6 +7,6 @@ NoteBuilder noteBuilder = new NoteBuilder(collection);
 PdfReader reader = new PdfReader();
 MenuHandler menuHandler = new MenuHandler(reader, noteBuilder);
 
-menuHandler.ShowMainMenu();
-noteBuilder.WriteCollection();
+await menuHandler.ShowMainMenu();
+//noteBuilder.WriteCollection();
 //await noteBuilder.TestMethod();
